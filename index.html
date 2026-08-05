@@ -103,6 +103,21 @@
   .topbar{ position:fixed; top:0; left:0; right:0; height:4px; background:var(--border-muted); z-index:60; }
   .topbar-fill{ height:100%; width:0%; background:var(--primary); transition:width .15s linear; }
 
+  .achievement{
+    position:fixed; top:20px; left:50%; z-index:65;
+    transform:translate(-50%,-140%); transition:transform .5s cubic-bezier(.2,.8,.2,1);
+    background:var(--hero-surface); border:2px solid var(--primary); border-radius:var(--r-md);
+    padding:12px 18px; display:flex; align-items:center; gap:12px;
+    box-shadow:0 10px 30px -10px rgba(0,0,0,.4);
+  }
+  .achievement.show{ transform:translate(-50%,0); }
+  .achievement .ico{ font-family:var(--f-pixel); font-size:18px; color:var(--primary); flex:none; }
+  .achievement .txt{ text-align:left; }
+  .achievement .t1{ font-family:var(--f-pixel); font-size:8.5px; color:var(--primary); letter-spacing:.04em; }
+  .achievement .t2{ font-size:13px; color:var(--hero-ink); margin-top:4px; }
+  @media (prefers-reduced-motion:reduce){ .achievement{ transition:none; } }
+  @media (max-width:600px){ .achievement{ width:calc(100% - 32px); } .achievement .t2{ font-size:12px; } }
+
   .kbd-hint{ position:fixed; bottom:20px; left:24px; z-index:55; font-size:11.5px; color:var(--mute); display:flex; gap:6px; align-items:center; }
   .kbd-hint kbd{ font-family:var(--f-body); border:1px solid var(--border-muted); border-radius:4px; padding:1px 6px; font-size:10.5px; background:var(--canvas); }
 
@@ -349,6 +364,13 @@
 <div class="topbar"><div class="topbar-fill" id="topbarFill"></div></div>
 <nav class="rail" id="rail" aria-label="Section navigation"></nav>
 <div class="kbd-hint">Use <kbd>&darr;</kbd> <kbd>&uarr;</kbd> or <kbd>space</kbd> to scroll</div>
+<div class="achievement" id="achievement" role="status" aria-live="polite">
+  <span class="ico">&#9733;</span>
+  <div class="txt">
+    <div class="t1">ACHIEVEMENT UNLOCKED</div>
+    <div class="t2">85% of PMs now submit their snapshot on time</div>
+  </div>
+</div>
 
 <main id="slides">
 
@@ -878,6 +900,15 @@
   });
   const railDots = Array.from(rail.children);
 
+  const achievementEl = document.getElementById('achievement');
+  let achievementShown = false;
+  function showAchievement(){
+    if(achievementShown) return;
+    achievementShown = true;
+    achievementEl.classList.add('show');
+    setTimeout(() => achievementEl.classList.remove('show'), 4200);
+  }
+
   let activeIndex = 0;
   function setActive(i){
     activeIndex = i;
@@ -912,6 +943,7 @@
       const m = slideMeta[i];
       if(top + viewportH * 0.9 > m.top && top < m.top + m.height){
         s.classList.add('in-view');
+        if(s.dataset.title === 'Impact') showAchievement();
       }
     });
 
