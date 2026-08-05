@@ -11,20 +11,20 @@
 <style>
   :root{
     --primary:#86bc25;
-    --primary-deep:#5c8a15;
-    --primary-pale:#eef6da;
+    --primary-deep:#74a81d;
+    --primary-pale:#1b2410;
     --on-primary:#12160a;
-    --ink:#14170f;
-    --ink-deep:#1c2b12;
-    --body-c:#42473c;
-    --mute:#7c8271;
-    --canvas:#ffffff;
-    --canvas-soft:#f6f7f0;
-    --border-muted:#e2e5d8;
+    --ink:#eef2e4;
+    --ink-deep:#cfe6a8;
+    --body-c:#aab5a0;
+    --mute:#8f9584;
+    --canvas:#171d10;
+    --canvas-soft:#0c0f07;
+    --border-muted:#2b3320;
     --positive:#86bc25;
-    --positive-deep:#3c5a10;
-    --warning-deep:#8a6d00;
-    --hero-surface:#0f150a;
+    --positive-deep:#74a81d;
+    --warning-deep:#c9a227;
+    --hero-surface:#07090c;
     --hero-ink:#eef6da;
 
     --r-sm:6px; --r-md:10px; --r-lg:16px; --r-xl:22px; --r-pill:9999px;
@@ -125,7 +125,7 @@
   /* ================= HUB (chapter map) ================= */
   #screen-hub{ background:var(--canvas-soft); overflow-y:auto; padding:70px 24px 100px; }
   .hub-header{ max-width:640px; margin:0 auto 56px; text-align:center; }
-  .hub-header h1{ font-family:var(--f-pixel); font-weight:400; font-size:clamp(24px,4.4vw,38px); text-shadow:3px 3px 0 var(--primary-pale); }
+  .hub-header h1{ font-family:var(--f-pixel); font-weight:400; font-size:clamp(24px,4.4vw,38px); text-shadow:3px 3px 0 var(--primary-deep); }
   .hub-header p{ font-size:15px; color:var(--body-c); margin-top:14px; line-height:1.6; }
   .hub-path{ max-width:640px; margin:0 auto; position:relative; }
   .hub-path::before{
@@ -167,13 +167,20 @@
     padding:10px 14px; cursor:pointer; flex:none;
   }
   .chapter-hud button:hover{ background:var(--primary-deep); }
-  .chapter-hud button#btnNext{ background:var(--primary); color:var(--on-primary); margin-left:auto; }
-  .chapter-hud button#btnNext:hover{ background:var(--primary-deep); color:var(--primary); }
   .chapter-hud-title{ font-family:var(--f-display); font-weight:700; font-size:14px; }
   .chapter-hud-title .n{ font-family:var(--f-pixel); font-size:10px; color:var(--primary-deep); margin-right:8px; }
   .chapter-progress{ flex:none; height:3px; background:var(--border-muted); }
   .chapter-progress-fill{ height:100%; width:0%; background:var(--primary); transition:width .1s linear; }
   .chapter-viewport{ flex:1; overflow-y:auto; position:relative; }
+  .chapter-next-bar{
+    flex:none; display:flex; justify-content:flex-end; padding:14px 20px; background:var(--canvas);
+    border-top:2px solid var(--ink); z-index:10;
+  }
+  .chapter-next-bar button{
+    background:var(--primary); color:var(--on-primary); border:none; font-family:var(--f-pixel); font-size:9.5px;
+    padding:12px 18px; cursor:pointer;
+  }
+  .chapter-next-bar button:hover{ background:var(--primary-deep); color:var(--primary); }
   .chapter{ display:none; }
   .chapter.active{ display:block; min-height:100%; }
   .chapter-pad{
@@ -221,7 +228,7 @@
   .issue-block:first-of-type{ padding-top:6px; }
   .issue-block.reverse{ flex-direction:row-reverse; }
   .issue-text{ flex:0 0 300px; }
-  .issue-visual{ flex:1; min-width:0; height:210px; border-radius:var(--r-lg); overflow:hidden; border:2px solid var(--ink); box-shadow:4px 4px 0 var(--primary-pale); background:#e9e9e4; }
+  .issue-visual{ flex:1; min-width:0; height:210px; border-radius:var(--r-lg); overflow:hidden; border:2px solid var(--ink); box-shadow:4px 4px 0 var(--primary); background:#20261a; }
   .issue-visual img{ width:100%; height:100%; object-fit:cover; object-position:left top; }
   .issue-cap{ font-size:14px; color:var(--body-c); line-height:1.55; margin-top:12px; }
   .issue-cap b{ color:var(--ink); }
@@ -252,8 +259,8 @@
   .persona-card{ position:relative; overflow:hidden; background:var(--canvas); border:2px solid var(--ink); border-radius:var(--r-xl); padding:20px 20px 18px; display:flex; flex-direction:column; gap:10px; }
   .persona-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:6px; background:var(--accent); }
   .persona-card.pm{ --accent:var(--primary); --accent-tint:var(--primary-pale); }
-  .persona-card.qrm{ --accent:#3a4a2a; --accent-tint:#e8ece0; }
-  .persona-card.lead{ --accent:#6d7a56; --accent-tint:#eef0e6; }
+  .persona-card.qrm{ --accent:#5c7a3e; --accent-tint:#1a2416; }
+  .persona-card.lead{ --accent:#8a9a70; --accent-tint:#1e2419; }
   .persona-head{ display:flex; align-items:center; gap:12px; }
   .avatar-sprite{ width:48px; height:64px; object-fit:contain; flex:none; }
   .persona-head .role{ font-weight:800; font-size:14px; line-height:1.3; }
@@ -292,7 +299,7 @@
   .ship-benefits li{ margin-bottom:8px; }
   .ship-benefits b{ color:var(--ink); }
   .ship-visuals{ flex:1; display:flex; flex-direction:column; gap:18px; min-width:0; }
-  .ship-visuals img{ width:100%; display:block; border-radius:var(--r-lg); border:2px solid var(--ink); box-shadow:4px 4px 0 var(--primary-pale); }
+  .ship-visuals img{ width:100%; display:block; border-radius:var(--r-lg); border:2px solid var(--ink); box-shadow:4px 4px 0 var(--primary); }
   .ship-visuals-single img{ max-width:520px; margin:0 auto; }
   @media (max-width:900px){ .ship-block{ flex-direction:column; gap:28px; } .ship-text{ flex:none; } }
 
@@ -424,7 +431,6 @@
   <div class="chapter-hud">
     <button id="btnMap">◂ MAP</button>
     <div class="chapter-hud-title"><span class="n" id="chHudNum">CH.01</span><span id="chHudTitle">THE WORLD</span></div>
-    <button id="btnNext">NEXT CHAPTER ▸</button>
   </div>
   <div class="chapter-progress"><div class="chapter-progress-fill" id="chapterProgressFill"></div></div>
   <div class="chapter-viewport" id="chapterViewport">
@@ -901,6 +907,9 @@
       </div>
     </section>
 
+  </div>
+  <div class="chapter-next-bar">
+    <button id="btnNext">NEXT CHAPTER ▸</button>
   </div>
 </div>
 
