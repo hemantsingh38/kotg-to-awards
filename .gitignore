@@ -14,6 +14,7 @@ raycast/
 # Dev-only artifacts not needed for the live site
 versions/
 portal.html
+case-study-draft.html
 artifact_index.html
 artifact_fragment.html
 pain-points-chart.html
