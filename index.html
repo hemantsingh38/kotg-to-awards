@@ -300,6 +300,7 @@
   .ship-benefits b{ color:var(--ink); }
   .ship-visuals{ flex:1; display:flex; flex-direction:column; gap:18px; min-width:0; }
   .ship-visuals img{ width:100%; display:block; border-radius:var(--r-lg); border:2px solid var(--ink); box-shadow:4px 4px 0 var(--primary); }
+  .ship-visuals video.ship-video{ width:100%; display:block; border-radius:var(--r-lg); border:2px solid var(--ink); box-shadow:4px 4px 0 var(--primary); background:var(--canvas); }
   .ship-visuals-single img{ max-width:520px; margin:0 auto; }
   @media (max-width:900px){ .ship-block{ flex-direction:column; gap:28px; } .ship-text{ flex:none; } }
 
@@ -692,8 +693,7 @@
             </ul>
           </div>
           <div class="ship-visuals">
-            <img src="assets/snapshot_flow2.png" alt="KOTG Project Summary step with pre-filled Yes/No answers, 80% complete">
-            <img src="assets/snapshot_flow.png" alt="KOTG Metrics step with all prior steps checked off, 100% complete">
+            <video class="ship-video" data-src="assets/video/snapshot_flow.mp4" poster="assets/video/snapshot_flow_poster.jpg" muted loop playsinline preload="none" aria-label="Screen recording of the KOTG snapshot flow, stepping through Project Summary to Metrics with a progress bar filling from 70% to 100%"></video>
           </div>
         </div>
 
@@ -710,8 +710,8 @@
             </ul>
           </div>
           <div class="ship-visuals">
-            <img src="assets/streak_strip.png" alt="Monthly streak tracker showing five consecutive months filled">
-            <img src="assets/badges_fan.png" alt="Four KOTG milestone badge cards: Commitment Captain, Navigational Northstar, Trust Titan, Reliability Pillar">
+            <video class="ship-video" data-src="assets/video/streak.mp4" poster="assets/video/streak_poster.jpg" muted loop playsinline preload="none" aria-label="Screen recording of the monthly streak tracker filling in month by month"></video>
+            <video class="ship-video" data-src="assets/video/badges.mp4" poster="assets/video/badges_poster.jpg" muted loop playsinline preload="none" aria-label="Screen recording of the Badges and Streaks feature, showing a badge card and the Badges and Streaks explainer modal"></video>
           </div>
         </div>
 
@@ -1054,6 +1054,7 @@
 
   function openChapter(i){
     currentChapter = i;
+    document.querySelectorAll('video.ship-video').forEach(function(v){ v.pause(); });
     chapters.forEach(function(c, idx){ c.classList.toggle('active', idx === i); c.classList.remove('in-view'); });
     chHudNum.textContent = chapterMeta[i].num;
     chHudTitle.textContent = chapterMeta[i].title.toUpperCase();
@@ -1067,10 +1068,21 @@
       requestAnimationFrame(function(){ chapters[i].classList.add('in-view'); });
     });
     if(chapterMeta[i].title === 'The Score') showAchievement();
+    loadChapterVideos(chapters[i]);
+  }
+  function loadChapterVideos(chapterEl){
+    chapterEl.querySelectorAll('video.ship-video').forEach(function(v){
+      if(!v.getAttribute('src') && v.dataset.src){
+        v.setAttribute('src', v.dataset.src);
+        v.load();
+        v.play().catch(function(){});
+      }
+    });
   }
   function closeChapter(){
     showScreen('hub');
     refreshHub();
+    document.querySelectorAll('video.ship-video').forEach(function(v){ v.pause(); });
   }
   function goNext(){
     if(currentChapter === chapters.length - 1) closeChapter();
